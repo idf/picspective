@@ -4,8 +4,13 @@
 (function(){
     'use strict';
 
-    var INST_TOKEN = "292420707.661b085.14661ff4c6414d68ba1c583cbd7bac3c";
+    var INST_CLIENT_ID = "8f54d78c6a544f33b67f3ea4600adcce";
+    var SITE_URL = "http://localhost:4567/";
+
+    // var inst_token = "292420707.661b085.14661ff4c6414d68ba1c583cbd7bac3c";
+    var inst_token = "";
     var INST_API_URL = "https://api.instagram.com/v1";
+
     var GG_TOKEN = "AIzaSyAs2yRcXM_Q_Ub8h5iTf5FP36f2RoiWO7Y";
 
     var app = angular.module('picspective.search-controllers', []);
@@ -20,17 +25,16 @@
         vm.count = 0;
 
         function finalQuery() {
-            sharedService.prepForBroadcast(vm.query);
-            $scope.$on('searchDataServiceReady', function() {
-                console.log('searchDataServiceReady');
-                vm.count = countMedia(sharedService);
-                vm.hour = sharedService.hour;
-            });
+
         }
 
         function updateCnt() {
             vm.query.time = Date.create(vm.query.time);
             vm.count = 0;
+            if(inst_token==="") {
+                $window.location.href = "http://instagram.com/oauth/authorize/?client_id=898d3a0471614bd0aee1ba443b25fd61&redirect_uri=http://localhost:4567/&response_type=code";
+
+            }
             sharedService.prepForCount(vm.query);
             $scope.$on('searchCountServiceReady', function() {
                 vm.count += countMedia(sharedService);
@@ -96,7 +100,7 @@
         };
         function instLocSearch(query, geocode, flag) {
             $http.jsonp(INST_API_URL+"/locations/search"+
-            "?access_token="+INST_TOKEN+
+            "?access_token="+inst_token+
             "&lat="+geocode.lat+
             "&lng="+geocode.lng+
             "&distance=1000"+
@@ -125,7 +129,7 @@
             sharedService.msg.length = 0; // clean  rather than reassign
             for(var i=0; i<geoid.data.length && i<UPPER; i++) {
                 promises.push($http.jsonp(INST_API_URL+"/locations/"+geoid.data[i].id+"/media/recent"+
-                "?access_token="+INST_TOKEN+
+                "?access_token="+inst_token+
                 "&min_timestamp="+start+
                 "&max_timestamp="+end+
                 "&callback=JSON_CALLBACK").success(function (data) {
