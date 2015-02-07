@@ -50,7 +50,7 @@
     <a href="/"><h1 class="title">picspective</h1></a>
     <div id="share" ng-controller="ShareController as shareCtrl">
         <!-- share -->
-        <h2>{{shareCtrl.comment}}</h2>
+        <h2 class="no-trans">{{shareCtrl.comment}}</h2>
         <div class="photostream share">
             <div ng-repeat="img in shareCtrl.images">
                 <p class="author">{{img.author_name}}</p>

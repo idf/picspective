@@ -17,6 +17,7 @@
         endSection(selectionService, vm.selected_img_list);
       }
       vm.current_image = vm.query_img_list[index].link + "media/?size=l";
+      vm.current_comment = vm.query_img_list[index].caption.text;
       if(!$scope.$$phase) {
         $scope.$apply();
       }

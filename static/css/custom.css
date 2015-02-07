@@ -50,7 +50,13 @@ h2 {
   width: 80%;
   margin: 40px auto 0px;
 }
+h2.no-trans {
+  font-size: 1.3em;
+  text-transform: none;
+}
 button {
+  position: relative;
+  z-index: 100;
   background: none;
   outline: 0;
   box-shadow: none;
@@ -94,7 +100,7 @@ textarea:focus {
 #container {
   position: relative;
   padding-top: 20px;
-  width: 960px;
+  max-width: 960px;
   margin: 0 auto;
   background: #dbdcdd;
   border-left: 1px dashed #808488;
@@ -130,7 +136,7 @@ textarea:focus {
   margin: 0 auto;
 }
 .photostream.share .author {
-  top: 55px;
+  top: 60px;
   height: 20px;
 }
 .photostream.share .title {
@@ -138,6 +144,7 @@ textarea:focus {
   bottom: 60px;
 }
 .photostream.share div {
+  margin-top: -40px;
   display: inline-block;
   overflow: hidden;
   height: 460px;
@@ -197,7 +204,7 @@ section i.fa-sort-desc {
   cursor: pointer;
 }
 #selection #current-image-wrap.hovered {
-  opacity: 0.5;
+  opacity: 0.7;
 }
 #selection #current-image-box p {
   font-size: 0.8em;
@@ -205,13 +212,17 @@ section i.fa-sort-desc {
   letter-spacing: 1px;
   color: #fefefe;
   position: relative;
-  top: -60px;
+  top: -70px;
   padding: 10px;
-  height: 40px;
+  height: 50px;
   background: rgba(0,0,0,0.5);
 }
 #selection #current-image {
   width: 500px;
+}
+#tutorial img {
+  margin-top: 20px;
+  width: 70%;
 }
 #share {
   padding: 50px 0px;
@@ -228,4 +239,33 @@ section i.fa-sort-desc {
   bottom: 0px;
   right: 0px;
   width: 50%;
+  z-index: 0;
+}
+@media (max-width: 780px) {
+  .photostream.demo img {
+    display: none;
+  }
+  .photostream.demo img:first-child {
+    display: inline-block;
+  }
+  .photostream.share img {
+    width: 300px;
+  }
+  .photostream.share .author,
+  .photostream.share .title {
+    display: none;
+  }
+  #tutorial img {
+    display: none;
+  }
+  #selection #current-image-wrap {
+    width: 200px;
+    height: 200px;
+  }
+  #selection #current-image {
+    width: 200px;
+  }
+  #selection #current-image-box p {
+    display: none;
+  }
 }

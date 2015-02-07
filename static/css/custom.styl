@@ -63,8 +63,13 @@ h2
   text-transform uppercase
   width 80%
   margin 40px auto 0px
+  &.no-trans
+    font-size 1.3em
+    text-transform none
 
 button
+  position relative
+  z-index 100
   background none
   outline 0
   box-shadow none
@@ -100,7 +105,7 @@ input, textarea
 #container
   position relative
   padding-top 20px
-  width 960px
+  max-width 960px
   margin 0 auto
   background primary-color
   border-left 1px dashed darken(primary-color, 40%)
@@ -131,12 +136,13 @@ input, textarea
       width 380px
       margin 0 auto
     .author
-      top 55px
+      top 60px
       height 20px
     .title
       height 20px
       bottom: 60px
     div
+      margin-top -40px
       display inline-block
       overflow hidden
       height 460px
@@ -186,7 +192,7 @@ section
     margin 0 auto
     cursor pointer
     &.hovered {
-      opacity 0.5
+      opacity 0.7
     }
   #current-image-box
     p
@@ -195,12 +201,17 @@ section
       letter-spacing 1px
       color off_white
       position relative
-      top -60px
+      top -70px
       padding 10px
-      height 40px
+      height 50px
       background rgba(0,0,0,0.5)
   #current-image
     width 500px
+
+#tutorial
+  img
+    margin-top 20px
+    width 70%
 
 #share
   padding 50px 0px
@@ -217,3 +228,28 @@ section
   bottom 0px
   right 0px
   width 50%
+  z-index 0
+
+
+@media (max-width: 780px)
+  .photostream 
+    &.demo img
+      display none
+    &.demo img:first-child
+      display inline-block
+    &.share
+      img
+        width 300px
+      .author, .title
+        display none
+  #tutorial
+    img
+      display none
+  #selection
+    #current-image-wrap
+      width 200px
+      height 200px
+    #current-image
+      width 200px
+    #current-image-box p
+      display none
