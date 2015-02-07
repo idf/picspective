@@ -23,8 +23,10 @@
     <script>
         $(document).ready(function(){
             $(document).keypress(function(e) {
-                e.preventDefault();
-                e.stopPropagation();
+                if (e.keyCode == 38 || e.keyCode == 40) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
             });
             $('body').on({
                 'mousewheel': function(e) {
