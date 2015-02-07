@@ -3,6 +3,10 @@
  */
 (function() {
     var app = angular.module("oauth-services", []);
+
+    /**
+     * Connect to oauth.io
+     */
     app.factory('oauthService', function($q) {
         var oauthService = false;
         return {
@@ -22,7 +26,7 @@
                         oauthService = result;
                         deferred.resolve();
                     } else {
-                        //do something if there's an error
+                        console.log("error in oauth");
                     }
                 });
                 return deferred.promise;
@@ -35,6 +39,10 @@
                 return oauthService.access_token;
             }
             //,
+            ///**
+            // * angularjs promise
+            // * @returns promise
+            // */
             //getLatestTweets: function () {
             //    //create a deferred object using Angular's $q service
             //    var deferred = $q.defer();
