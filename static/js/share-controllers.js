@@ -75,37 +75,138 @@
         //        console.log(imageList.id+" pushed to Parse");
         //    }
         //});
+////////////////////////////////////
+//        var imageListID = "kmLySAGuBp";
+//        var imageList = new ImageList();
+//        var queryIL = new Parse.Query(ImageList);
+//        queryIL.get(imageListID, {
+//            success: function (imageList) {
+//
+//                console.log(imageList.id + " downloaded");
+//                caption = imageList.get("caption");
+//                listOfParseImage = imageList.get("listOfParseImage").split(',');
+//                //console.log(caption+listOfParseImage.toString());
+//
+//                var queryLOPI = new Parse.Query(InstaImage);
+//                for (var i = 0; i < listOfParseImage.length; i++) {
+//                    queryLOPI.get(listOfParseImage[i], {
+//                        success: function (instaImage) {
+//                            // The object was retrieved successfully.
+//                            $("#share").append(instaImage.get("html"));
+//                            console.log(instaImage.id + " downloaded");
+//                            $('#share-caption').html(caption);
+//                        },
+//                        error: function (object, error) {
+//                            // The object was not retrieved successfully.
+//                            // error is a Parse.Error with an error code and message.
+//                        }
+//                    });
+//                }
+//            },
+//            error: function (object, error) {
+//            }
+//        });
 
-        var imageListID = "kmLySAGuBp";
-        var imageList = new ImageList();
-        var queryIL = new Parse.Query(ImageList);
-        queryIL.get(imageListID, {
-            success: function (imageList) {
+        function loadImages(sources, callback) {
+            var images = {};
+            var loadedImages = 0;
+            var numImages = 0;
+            // get num of sources
+            for(var src in sources) {
+                numImages++;
+            }
+            for(var src in sources) {
+                images[src] = new Image();
 
-                console.log(imageList.id + " downloaded");
-                caption = imageList.get("caption");
-                listOfParseImage = imageList.get("listOfParseImage").split(',');
-                //console.log(caption+listOfParseImage.toString());
+                images[src].onload = function() {
+                    if(++loadedImages >= numImages) {
+                        callback(images);
+                    }
+                };
+                images[src].src = sources[src];
+            }
+        }
 
-                var queryLOPI = new Parse.Query(InstaImage);
-                for (var i = 0; i < listOfParseImage.length; i++) {
-                    queryLOPI.get(listOfParseImage[i], {
-                        success: function (instaImage) {
-                            // The object was retrieved successfully.
-                            $("#share").append(instaImage.get("html"));
-                            console.log(instaImage.id + " downloaded");
-                            $('#share-caption').html(caption);
-                        },
-                        error: function (object, error) {
-                            // The object was not retrieved successfully.
-                            // error is a Parse.Error with an error code and message.
-                        }
-                    });
-                }
-            },
-            error: function (object, error) {
+
+        var SIZE=306*3;
+        var canvas = $('#share-canvas');
+        var context = canvas.get(0).getContext('2d');
+        canvas.get(0);
+        canvas.width(SIZE).height(SIZE);
+        canvas.attr('width', SIZE).attr('height', SIZE);
+        SIZE=306;
+
+        var sources = [
+            'http://instagram.com/p/yt4-OAjMtR/media/?size=m',
+            'http://instagram.com/p/v792rvjMpb/media/?size=m',
+            'http://instagram.com/p/u-jP_sDMtf/media/?size=m',
+            'http://instagram.com/p/uIrlapDMlc/media/?size=m',
+            'http://instagram.com/p/rsoCDAjMtI/media/?size=m',
+            'http://instagram.com/p/rsoCDAjMtI/media/?size=m',
+            'http://instagram.com/p/oHnZqpjMjv/media/?size=m',
+            'http://instagram.com/p/mZV42pjMva/media/?size=m',
+            'http://instagram.com/p/mFBgLMDMuV/media/?size=m'
+        ];
+
+        function drawRectanlesBorders(img,x,y,width,height,deg){
+
+            var c=$("#share-canvas");
+            var ctx=c.get(0).getContext("2d");
+            var rad = deg * Math.PI / 180;
+
+            ctx.save();
+            ctx.translate(x + width / 2, y + height / 2);
+            ctx.rotate(rad);
+            ctx.beginPath();
+            ctx.rect(width / 2 * (-1), height / 2 * (-1), width, height);
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = 'white';
+            ctx.stroke();
+            ctx.restore();
+        }
+
+
+        function drawImageRot(img,x,y,width,height,deg){
+
+            var c=$("#share-canvas");
+            var ctx=c.get(0).getContext("2d");
+            var rad = deg * Math.PI / 180;
+
+            ctx.save();
+            ctx.translate(x + width / 2, y + height / 2);
+            ctx.rotate(rad);
+            ctx.drawImage(img,width / 2 * (-1),height / 2 * (-1),width,height);
+            ctx.restore();
+        }
+
+
+        loadImages(sources, function(images) {
+
+            //draw background  image
+            //drawImageRot(images.bg, 0, 0, 600, 600,0);
+
+            //draw borders
+            //drawRectanlesBorders(images.b, 380, 55,277, 184,-20);
+            //
+            //
+            //drawRectanlesBorders(images.a,-20,-20, 300, 224,-30);
+            //drawRectanlesBorders(images.e, 130, 150,350, 274,0);
+            //drawRectanlesBorders(images.d, 320, 430,277, 184,20);
+            //drawRectanlesBorders(images.f, 0, 380, 240,160,-10);
+
+            //draw images
+            //drawImageRot(images.b, 380, 55,277, 184,-20);
+            //
+            //drawImageRot(images.a,-20,-20, 300, 224,-30);
+            //drawImageRot(images.e, 130, 150,350, 274,0);
+            //drawImageRot(images.d, 320, 430,277, 184,20);
+            //drawImageRot(images.f, 0, 380, 240,160,-10);
+            for (var i =0; i< sources.length; i++){
+                drawImageRot(images[i],(Math.floor(i/3))*SIZE,(i%3)*SIZE,SIZE,SIZE,0);
             }
         });
+        var img    = canvas.toDataURL("image/png");
+
     }]);
 
     app.factory('SharingDataService', ["$http", "$rootScope", function($http, $rootScope) {

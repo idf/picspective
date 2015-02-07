@@ -35,20 +35,21 @@
     <p>{{searchCtrl.query.hour }}</p>
     <p>{{searchCtrl.count }}</p>
 </section>
-<section id="selection" ng-controller="SelectionController as selectionCtrl">
-    <!-- selection -->
-    <div id="current-image-box">
-        <div id="current-image-wrap">
-            <img id="current-image" ng-src="{{selectionCtrl.current_image.url}}"/>
-        </div>
-        <p ng-bind="selectionCtrl.current_image.comment"></p>
-    </div>
-    <button id="selection-done">Done</button>
-</section>
+<!--<section id="selection" ng-controller="SelectionController as selectionCtrl">-->
+    <!--&lt;!&ndash; selection &ndash;&gt;-->
+    <!--<div id="current-image-box">-->
+        <!--<div id="current-image-wrap">-->
+            <!--<img id="current-image" ng-src="{{selectionCtrl.current_image.url}}"/>-->
+        <!--</div>-->
+        <!--<p ng-bind="selectionCtrl.current_image.comment"></p>-->
+    <!--</div>-->
+    <!--<button id="selection-done">Done</button>-->
+<!--</section>-->
 <section id="share"  ng-controller="ShareController as shareCtrl">
     <script async="" defer="" src="//platform.instagram.com/en_US/embeds.js"></script>
     <div id="share-caption">testing</div>
-    <div id="share-photos">testings</div>
+    <div id="share-photos"></div>
+    <canvas id="share-canvas" height="600" width="600"></canvas>
     <!-- share -->
 </section>
 </body>
