@@ -37,7 +37,7 @@
             <div ng-repeat="img in shareCtrl.images">
                 <p class="author">{{img.author_name}}</p>
                 <img ng-src="{{img.thumbnail_url}}"/>
-                <p class="title">{{img.title || "No caption"}}</p>
+                <p class="title">{{img.title | limitTo:40 || "No caption"}}</p>
             </div>
         </div>
 
