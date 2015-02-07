@@ -29,6 +29,7 @@
         }
 
         function updateCnt() {
+            vm.query.time = Date.create(vm.query.time);
             vm.count = 0;
             sharedService.prepForCount(vm.query);
             $scope.$on('searchCountServiceReady', function() {
@@ -103,7 +104,7 @@
                 var geoid = data;
                 // console.log("instLocSearch: ");
                 // console.log(geoid);
-                recentMedia(geoid, query.time, query.hour, flag);
+                recentMedia(geoid, Math.floor(query.time/1000), query.hour, flag);  // UNIX stamp
             });
         }
 
