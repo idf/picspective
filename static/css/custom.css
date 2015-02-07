@@ -113,6 +113,33 @@ textarea:focus {
 .photostream.demo img {
   width: 230px;
 }
+.photostream.share .author,
+.photostream.share .title {
+  font-size: 0.8em;
+  font-weight: 100;
+  letter-spacing: 1px;
+  color: #fefefe;
+  position: relative;
+  padding: 10px;
+  background: rgba(0,0,0,0.7);
+  width: 91%;
+  margin: 0 auto;
+}
+.photostream.share .author {
+  top: 45px;
+  height: 20px;
+}
+.photostream.share .title {
+  height: 20px;
+  bottom: 45px;
+}
+.photostream.share div {
+  display: inline-block;
+}
+.photostream.share img {
+  width: 400px;
+  margin: 10px;
+}
 section {
   height: 90vh;
 }
@@ -161,6 +188,10 @@ section i.fa-sort-desc {
   height: 500px;
   text-align: center;
   margin: 0 auto;
+  cursor: pointer;
+}
+#selection #current-image-wrap.hovered {
+  opacity: 0.5;
 }
 #selection #current-image-box p {
   font-size: 0.8em;
@@ -175,6 +206,9 @@ section i.fa-sort-desc {
 }
 #selection #current-image {
   width: 500px;
+}
+#share {
+  padding: 50px 0px;
 }
 #title textarea {
   display: block;

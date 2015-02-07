@@ -113,6 +113,28 @@ input, textarea
       padding 0px 5px
   &.demo img
     width 230px
+  &.share
+    .author, .title
+      font-size 0.8em
+      font-weight 100
+      letter-spacing 1px
+      color off_white
+      position relative
+      padding 10px
+      background rgba(0,0,0,0.7)
+      width 91%;
+      margin 0 auto
+    .author
+      top 45px
+      height 20px
+    .title
+      height 20px
+      bottom: 45px
+    div
+      display inline-block
+    img
+      width 400px
+      margin 10px
 
 section
   height 90vh
@@ -154,6 +176,10 @@ section
     height 500px
     text-align center
     margin 0 auto
+    cursor pointer
+    &.hovered {
+      opacity 0.5
+    }
   #current-image-box
     p
       font-size 0.8em
@@ -167,6 +193,9 @@ section
       background rgba(0,0,0,0.5)
   #current-image
     width 500px
+
+#share
+  padding 50px 0px
 
 #title
   textarea

@@ -16,7 +16,7 @@
       if (vm.query_img_list.length == 0 || vm.selected_img_list.length == max_photos) {
         endSection(selectionService, vm.selected_img_list);
       }
-      vm.current_image = vm.query_img_list[index];
+      vm.current_image = vm.query_img_list[index].link + "media/?size=l";
       if(!$scope.$$phase) {
         $scope.$apply();
       }
@@ -40,11 +40,11 @@
     // Controls for user action events (buttons, hovering, styling)
     var eventHandlers = function(selectionService, selected_img_list) {
       $("#current-image-wrap").hover(function() {
-        if ($(this).hasClass("selected")) {
-          $(this).removeClass("selected");
+        if ($(this).hasClass("hovered")) {
+          $(this).removeClass("hovered");
         }
         else {
-          $(this).addClass("selected");
+          $(this).addClass("hovered");
         }
       });
       $("#selection-done").click(function() {
@@ -63,7 +63,7 @@
         
         var vm = this;
         vm.saveToParse = saveToParse;
-        vm.selected_img_list = [] 
+        vm.selected_img_list = [];
 
         $scope.$on('searchDataServiceReady', function() {
           console.log(searchService.msg);
@@ -81,6 +81,7 @@
           imageList.save(null,{
              success: function(imageList){
                  console.log(imageList.id+" pushed to Parse");
+                 window.location = window.location.origin + "/" + imageList.id;
              }
           });
           }
