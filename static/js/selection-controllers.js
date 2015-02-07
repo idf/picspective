@@ -55,6 +55,7 @@
     // Moves on to share section
     var endSection = function(selectionService, selected_img_list) {
       console.log(selected_img_list);
+      gotoNextSection();
       // var ImageList = Parse.Object.extend("ImageList");
       // selectionService.prepForBroadcast(selected_img_list);
     };
@@ -66,6 +67,7 @@
         vm.selected_img_list = [];
 
         $scope.$on('searchDataServiceReady', function() {
+          gotoNextSection();
           console.log(searchService.msg);
           vm.query_img_list = searchService.msg;
           scopeNextImage(selectionService, $timeout, vm, $scope, 0);

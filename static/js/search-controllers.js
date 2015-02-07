@@ -24,6 +24,7 @@
         }
 
         function updateCnt() {
+            gotoNextSection();
             vm.query.time = Date.create(vm.query.time);
             vm.count = 0;
             sharedService.prepForCount(vm.query);
