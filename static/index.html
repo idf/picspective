@@ -53,7 +53,8 @@
         </div>
     </section>
 
-    <section id="sec2" ng-controller="SelectionController as selectionCtrl">
+    <div ng-controller="SelectionController as selectionCtrl">
+    <section id="sec2">
         <!-- selection -->
         <div id="selection" class="section-content">
           <div id="current-image-box">
@@ -63,15 +64,7 @@
             </div>
         </div>
         <div class="photostream selected">
-            <img src="img/sampleimage1.jpg"/>
-            <img src="img/sampleimage2.jpg"/>
-            <img src="img/sampleimage3.jpg"/>
-            <img src="img/sampleimage2.jpg"/>
-            <img src="img/sampleimage3.jpg"/>
-            <img src="img/sampleimage2.jpg"/>
-            <img src="img/sampleimage3.jpg"/>
-            <img src="img/sampleimage2.jpg"/>
-            <img src="img/sampleimage3.jpg"/>
+            <img ng-repeat="img in selectionCtrl.selected_img_list" ng-src="{{img}}"/>
         </div>
         <button class="share">Continue</button>
         </div>
@@ -82,20 +75,13 @@
         <div id="title" class="section-content">
           <h2>Leave a comment with your story</h2>
           <div class="photostream selected">
-            <img src="img/sampleimage1.jpg"/>
-            <img src="img/sampleimage2.jpg"/>
-            <img src="img/sampleimage3.jpg"/>
-            <img src="img/sampleimage2.jpg"/>
-            <img src="img/sampleimage3.jpg"/>
-            <img src="img/sampleimage2.jpg"/>
-            <img src="img/sampleimage3.jpg"/>
-            <img src="img/sampleimage2.jpg"/>
-            <img src="img/sampleimage3.jpg"/>
+            <img ng-repeat="img in selectionCtrl.selected_img_list" ng-src="{{img}}"/>
           </div>
-          <input type="text"/>
+          <textarea id="story-title"/></textarea>
           <button class="share">Create</button>
         </div>
     </section>
+    </div>
 
     <!-- <section id="share"> -->
         <!-- share --><!-- 

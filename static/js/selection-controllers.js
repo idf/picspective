@@ -11,10 +11,10 @@
 
     // Brings the next image into scope, call with index 0 of list
     // Iterates (cyclic) thru list recursively with a timeout of specified duration
-    var scopeNextImage = function(selectionService, $timeout, vm, $scope, img_list, selected_img_list, index) {
+    var scopeNextImage = function(selectionService, $timeout, vm, $scope, img_list, index) {
       console.log("scoping "+index+" of "+img_list);
-      if (img_list.length == 0 || selected_img_list.length == max_photos) {
-        endSection(selectionService, selected_img_list);
+      if (img_list.length == 0 || vm.selected_img_list.length == max_photos) {
+        endSection(selectionService, vm.selected_img_list);
       }
       vm.current_image = img_list[index];
       if(!$scope.$$phase) {
@@ -22,15 +22,18 @@
       }
       var timer = $timeout(function() {
         if (index+1 === img_list.length) index = -1;
-        scopeNextImage(selectionService, $timeout, vm, $scope, img_list, selected_img_list, index+1);
+        scopeNextImage(selectionService, $timeout, vm, $scope, img_list, index+1);
       }, image_duration);
       $("#current-image").unbind();
       $("#current-image").mousedown(function() {
-        selected_img_list.push($(this).attr('src'));
+        vm.selected_img_list.push($(this).attr('src'));
+        if(!$scope.$$phase) {
+          $scope.$apply();
+        }
         $timeout.cancel(timer);
         img_list.splice(index, 1);
         if (index === img_list.length) index = 0;
-        scopeNextImage(selectionService, $timeout, vm, $scope, img_list, selected_img_list, index);
+        scopeNextImage(selectionService, $timeout, vm, $scope, img_list, index);
       });
     }
 
@@ -57,7 +60,7 @@
 
     app.controller('SelectionController', ['$http', '$scope', '$timeout', 'searchDataService', 'selectionDataService', function($http, $scope, $timeout, searchService, selectionService) {
         var vm = this;
-        var selected_img_list = [] 
+        vm.selected_img_list = [] 
         var tmp_img_list = [
         {
           url: "http://lorempixel.com/output/nightlife-q-c-640-480-10.jpg",
@@ -75,8 +78,8 @@
           url: "http://lorempixel.com/output/technics-q-c-640-480-4.jpg",
           comment: "Shiiiit. This is dope!"
         }];
-        scopeNextImage(selectionService, $timeout, vm, $scope, tmp_img_list, selected_img_list, 0);
-        eventHandlers(selectionService, selected_img_list);
+        scopeNextImage(selectionService, $timeout, vm, $scope, tmp_img_list, 0);
+        eventHandlers(selectionService, vm.selected_img_list);
     }]);
 
     app.factory('selectionDataService', ["$http", "$rootScope", function($http, $rootScope, query) {

@@ -62,7 +62,8 @@ button:hover {
   color: #474747;
   border: 2px solid #474747;
 }
-input {
+input,
+textarea {
   display: inline-block;
   border: none;
   background: #e2e3e4;
@@ -73,8 +74,10 @@ input {
   padding: 10px 20px;
   border: 1px dashed #808488;
   border-radius: 30px;
+  resize: none;
 }
-input:focus {
+input:focus,
+textarea:focus {
   -webkit-transition: background 0.3s linear;
   -moz-transition: background 0.3s linear;
   -ms-transition: background 0.3s linear;
@@ -98,12 +101,14 @@ input:focus {
   text-align: center;
 }
 .photostream.selected {
+  height: 75px;
   padding: 20px 10px;
   background: #bebebe;
 }
 .photostream.selected img {
   width: 75px;
   opacity: 0.3;
+  padding: 0px 5px;
 }
 .photostream.demo img {
   width: 230px;
@@ -171,9 +176,11 @@ section i.fa-sort-desc {
 #selection #current-image {
   width: 500px;
 }
-#title input {
+#title textarea {
   display: block;
   margin: 40px auto;
+  height: 200px;
+  padding: 40px;
 }
 #footer-img {
   position: absolute;

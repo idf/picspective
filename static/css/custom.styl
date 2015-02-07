@@ -73,7 +73,7 @@ button
     color lighten(dark_gray, 10%)
     border 2px solid lighten(dark_gray, 10%)
 
-input
+input, textarea
   display inline-block
   border none
   background lighten(primary-color, 20%)
@@ -84,6 +84,7 @@ input
   padding 10px 20px
   border 1px dashed darken(primary-color, 40%)
   border-radius 30px
+  resize none
   &:focus
     fader(background, 0.3s)
     outline 0
@@ -103,11 +104,13 @@ input
   margin 30px auto
   text-align center
   &.selected
+    height 75px
     padding 20px 10px
     background darken(light_gray, 20%)
     img
       width 75px
       opacity 0.3
+      padding 0px 5px
   &.demo img
     width 230px
 
@@ -166,9 +169,11 @@ section
     width 500px
 
 #title
-  input
+  textarea
     display block
     margin 40px auto
+    height 200px
+    padding 40px
 #footer-img
   position absolute
   bottom 0px
