@@ -5,7 +5,7 @@
 
     <script type="text/javascript" src="bower_components/angularjs/angular.min.js"></script>
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
-    <script type="text/javascript" src="js/commons-util-js-daniel/PrimitiveExtensions.js"></script>
+    <script type="text/javascript" src="bower_components/sugar/release/sugar-full.min.js"></script>
 
     <script type="text/javascript" src="js/commons-util-js-daniel/angularjs/filters.js"></script>
     <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.3.4.min.js"></script>
@@ -19,19 +19,21 @@
     <script type="text/javascript" src="js/selection-controllers.js"></script>
     <script type="text/javascript" src="js/selection-directives.js"></script>
     <script type="text/javascript" src="js/share-controllers.js"></script>
-    <script type="text/javascript" src="js/share-directives.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 
 </head>
+<body>
 <section id="search" ng-controller="SearchController as searchCtrl">
     <!-- search -->
-    <form name="searchForm" ng-submit="searchCtrl.searchQuery()" novalidate>
+    <form name="searchForm" ng-submit="searchCtrl.updateCnt()" novalidate>
         <input type="text" autofocus="autofocus" autocomplete="off" placeholder="Location" name="search_loc" style="" class="form-control" ng-model="searchCtrl.query.loc" required>
         <input type="text" autocomplete="off" placeholder="Time" name="search_time" style="" class="form-control" ng-model="searchCtrl.query.time" required>
         <button type="submit">Submit</button>
     </form>
     <p>{{searchCtrl.query.loc}}</p>
     <p>{{searchCtrl.query.time }}</p>
+    <p>{{searchCtrl.query.hour }}</p>
+    <p>{{searchCtrl.count }}</p>
 </section>
 <section id="selection" ng-controller="SelectionController as selectionCtrl">
     <!-- selection -->
@@ -43,12 +45,11 @@
     </div>
     <button id="selection-done">Done</button>
 </section>
-<section id="share">
+<section id="share"  ng-controller="ShareController as shareCtrl">
     <script async="" defer="" src="//platform.instagram.com/en_US/embeds.js"></script>
-    <div id="share-caption"></div>
-    <div id="share-photos"></div>
+    <div id="share-caption">testing</div>
+    <div id="share-photos">testings</div>
     <!-- share -->
 </section>
-<body>
 </body>
 </html>
