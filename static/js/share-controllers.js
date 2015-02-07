@@ -31,7 +31,7 @@
                 var il_comment = imageList.attributes.comment;
                 vm.comment = il_comment;
                 var il_photos = imageList.attributes.selected_img_list.split(",");
-                vm.images = []
+                vm.images = [];
                 console.log(il_photos);
 
                 for (var i = 0; i < il_photos.length; i++) {

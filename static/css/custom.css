@@ -234,6 +234,12 @@ section i.fa-sort-desc {
   height: 200px;
   padding: 40px;
 }
+#birds-img {
+  width: 40%;
+  position: relative;
+  bottom: 0px;
+  left: 55%;
+}
 #footer-img {
   position: absolute;
   bottom: 0px;
