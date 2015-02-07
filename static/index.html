@@ -23,6 +23,7 @@
     <script type="text/javascript" src="js/app.js"></script>
 
 </head>
+<body>
 <section id="search" ng-controller="SearchController as searchCtrl">
     <!-- search -->
     <form name="searchForm" ng-submit="searchCtrl.searchQuery()" novalidate>
@@ -43,12 +44,11 @@
     </div>
     <button id="selection-done">Done</button>
 </section>
-<section id="share">
+<section id="share"  ng-controller="ShareController as shareCtrl">
     <script async="" defer="" src="//platform.instagram.com/en_US/embeds.js"></script>
-    <div id="share-caption"></div>
-    <div id="share-photos"></div>
+    <div id="share-caption">{{shareCtrl.}}</div>
+    <div id="share-photos">testings</div>
     <!-- share -->
 </section>
-<body>
 </body>
 </html>
