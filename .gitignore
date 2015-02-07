@@ -219,7 +219,6 @@ data/
 venv
 *.pyc
 staticfiles
-.env
 *.exe
 
 
