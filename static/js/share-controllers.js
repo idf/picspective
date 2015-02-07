@@ -181,26 +181,6 @@
 
 
         loadImages(sources, function(images) {
-
-            //draw background  image
-            //drawImageRot(images.bg, 0, 0, 600, 600,0);
-
-            //draw borders
-            //drawRectanlesBorders(images.b, 380, 55,277, 184,-20);
-            //
-            //
-            //drawRectanlesBorders(images.a,-20,-20, 300, 224,-30);
-            //drawRectanlesBorders(images.e, 130, 150,350, 274,0);
-            //drawRectanlesBorders(images.d, 320, 430,277, 184,20);
-            //drawRectanlesBorders(images.f, 0, 380, 240,160,-10);
-
-            //draw images
-            //drawImageRot(images.b, 380, 55,277, 184,-20);
-            //
-            //drawImageRot(images.a,-20,-20, 300, 224,-30);
-            //drawImageRot(images.e, 130, 150,350, 274,0);
-            //drawImageRot(images.d, 320, 430,277, 184,20);
-            //drawImageRot(images.f, 0, 380, 240,160,-10);
             for (var i =0; i< sources.length; i++){
                 drawImageRot(images[i],(Math.floor(i/3))*SIZE,(i%3)*SIZE,SIZE,SIZE,0);
             }
