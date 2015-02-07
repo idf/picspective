@@ -12,7 +12,7 @@
 
     var GG_TOKEN = "AIzaSyAs2yRcXM_Q_Ub8h5iTf5FP36f2RoiWO7Y";
 
-    var app = angular.module('picspective.search-controllers', []);
+    var app = angular.module('picspective.search-controllers', ['oauth-services']);
 
     app.controller('SearchController', ['$http', '$scope', 'searchDataService', function($http, $scope, sharedService) {
         var vm = this;
@@ -44,7 +44,7 @@
     }]);
 
 
-    app.factory('searchDataService', ["$http", "$rootScope", "$q", "instagramService", function($http, $rootScope, $q, instagramService) {
+    app.factory('searchDataService', ["$http", "$rootScope", "$q", "oauthService", function($http, $rootScope, $q, oauthService) {
         var sharedService = {};
         sharedService.prepForBroadcast = prepForBroadcast;
         sharedService.broadcastItem = broadcastItem;
@@ -54,7 +54,7 @@
         sharedService.msg = [];
         sharedService.hour = 0;
 
-        instagramService.initialize();
+        oauthService.initialize("instagram");
 
         function broadcastItem() {
             console.log("broadcastItem");
@@ -71,11 +71,11 @@
         }
 
         function prepForCount(query) {
-            if(instagramService.isReady()) {
+            if(oauthService.isReady()) {
                 loc2geocode(query, true);
             }
             else {
-                instagramService.connectInstagram().then(function () {
+                oauthService.connect("instagram").then(function () {
                     loc2geocode(query, true);
                 });
             }
@@ -101,7 +101,7 @@
         };
         function instLocSearch(query, geocode, flag) {
             $http.jsonp(INST_API_URL+"/locations/search"+
-            "?access_token="+instagramService.getAccessToken()+
+            "?access_token="+oauthService.getAccessToken()+
             "&lat="+geocode.lat+
             "&lng="+geocode.lng+
             "&distance=1000"+
@@ -130,7 +130,7 @@
             sharedService.msg.length = 0; // clean  rather than reassign
             for(var i=0; i<geoid.data.length && i<UPPER; i++) {
                 promises.push($http.jsonp(INST_API_URL+"/locations/"+geoid.data[i].id+"/media/recent"+
-                "?access_token="+instagramService.getAccessToken()+
+                "?access_token="+oauthService.getAccessToken()+
                 "&min_timestamp="+start+
                 "&max_timestamp="+end+
                 "&callback=JSON_CALLBACK").success(function (data) {
@@ -156,53 +156,6 @@
                 }
             });
         }
-
         return sharedService;
     }]);
-
-    app.factory('instagramService', function($q) {
-        var authorizationResult = false;
-        return {
-            initialize: function() {
-                //initialize OAuth.io with public key of the application
-                OAuth.initialize('421nwYiF8fdQ56TiNC8QSn2gm-Q', {cache:true});
-                //try to create an authorization result when the page loads, this means a returning user won't have to click the twitter button again
-                authorizationResult = OAuth.create('instagram');
-            },
-            isReady: function() {
-                return (authorizationResult);
-            },
-            connectInstagram: function() {
-                var deferred = $q.defer();
-                OAuth.popup('instagram', {cache:true}, function(error, result) { //cache means to execute the callback if the tokens are already present
-                    if (!error) {
-                        authorizationResult = result;
-                        deferred.resolve();
-                    } else {
-                        //do something if there's an error
-                    }
-                });
-                return deferred.promise;
-            },
-            clearCache: function() {
-                OAuth.clearCache('instagram');
-                authorizationResult = false;
-            },
-            getAccessToken: function () {
-                return authorizationResult.access_token;
-            }
-            //,
-            //getLatestTweets: function () {
-            //    //create a deferred object using Angular's $q service
-            //    var deferred = $q.defer();
-            //    var promise = authorizationResult.get('/1.1/statuses/home_timeline.json').done(function(data) { //https://dev.twitter.com/docs/api/1.1/get/statuses/home_timeline
-            //        //when the data is retrieved resolved the deferred object
-            //        deferred.resolve(data)
-            //    });
-            //    //return the promise of the deferred object
-            //    return deferred.promise;
-            //}
-        }
-
-    });
 })();
