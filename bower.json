@@ -1,0 +1,29 @@
+{
+  "name": "picspective",
+  "version": "0.0.0",
+  "homepage": "https://github.com/zhangdanyangg/picspective",
+  "authors": [
+    "Daniel D. ZHANG <zhangdanyangg@gmail.com>",
+    "Yuan Yiyang",
+    "Raymond Jacobson"
+  ],
+  "description": "picspective",
+  "main": "index.html",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "Apache",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angularjs": "~1.3.12",
+    "jquery": "~2.1.3",
+    "jquery-ui": "~1.11.2",
+    "sugar": "~1.4.1"
+  }
+}

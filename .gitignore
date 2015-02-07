@@ -245,4 +245,4 @@ target/
 #############
 ## Bower
 #############
-bower_components/
+#bower_components/
