@@ -15,8 +15,26 @@
     <script type="text/javascript" src="js/share-controllers.js"></script>
     <script type="text/javascript" src="js/share-directives.js"></script>
     <script type="text/javascript" src="js/oauth-services.js"></script>
+    <script type="text/javascript" src="js/facebook-controllers.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '784681101611875',
+                xfbml      :  true,
+                version    : 'v2.1'
+            });
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 
 </head>
 <section id="search" ng-controller="SearchController as searchCtrl">
@@ -36,6 +54,11 @@
 </section>
 <section id="share">
     <!-- share -->
+</section>
+<section>
+    <div ng-controller="UrlShareController as urlShareCtrl">
+        <button type="button" ng-click="urlShareCtrl.share()">Share</button>
+    </div>
 </section>
 <body>
 </body>

@@ -11,6 +11,7 @@
         /* Feature ares */
         'picspective.search-controllers',
         'picspective.search-directives',
+        'picspective.facebook-controllers',
         //'picspective.selection-controllers',
         //'picspective.selection-directives',
         //'picspective.share-controllers',
