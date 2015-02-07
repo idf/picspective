@@ -13,7 +13,7 @@
     app.controller('SearchController', ['$http', '$scope', 'searchDataService', function($http, $scope, sharedService) {
         var vm = this;
 
-        var PIC = 30;
+        var PIC = 2;
         vm.finalQuery = finalQuery;
         vm.updateCnt = updateCnt;
         vm.query = {};
@@ -30,23 +30,21 @@
 
         function updateCnt() {
             vm.count = 0;
-            var UPPER = 10;
+            var UPPER = 5;
             for(var i=0; vm.count<=PIC && i<UPPER; vm.query.hour *= 2, i++) {
                 sharedService.prepForCount(vm.query);
                 $scope.$on('searchCountServiceReady', function() {
-                    vm.count = countMedia(sharedService);
+                    vm.count += countMedia(sharedService);
+                    console.log(vm.count);
                 });
             }
-            vm.finalQuery();
+            // vm.finalQuery();
         }
 
         // private
         function countMedia(service) {
-            var count = 0;
-            for(var i=0; i<service.msg.length; i++) {
-                count += service.msg[i].data.length;
-            }
-            return count;
+            console.log(service.msg);
+            return service.msg.length;
         }
     }]);
 
@@ -58,12 +56,15 @@
 
         sharedService.prepForCount = prepForCount;
         sharedService.broadcastCount = broadcastCount;
+        sharedService.msg = [];
 
         function broadcastItem() {
+            console.log("broadcastItem");
             $rootScope.$broadcast('searchDataServiceReady');
         }
 
         function broadcastCount() {
+            console.log("broadcastCount");
             $rootScope.$broadcast('searchCountServiceReady');
         }
 
@@ -74,21 +75,20 @@
 
         function prepForCount(query) {
             loc2geocode(query);
-            sharedService.broadcastCount();
         }
 
         // HELPER FUNCTIONS
         // https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=API_KEY
         function loc2geocode(query) {
-            console.log("loc2geocode: ");
-            console.log(query);
+            // console.log("loc2geocode: ");
+            // console.log(query);
             $http.get('https://maps.googleapis.com/maps/api/geocode/json?key='+
             GG_TOKEN+"&address="+query.loc).success(function(data) {  // hack around
-                console.log("loc2geocode: ");
-                console.log(data);
+                // console.log("loc2geocode: ");
+                // console.log(data);
                 var geocode = data.results[0].geometry.location;  // lat, lng
-                console.log("loc2geocode: ");
-                console.log(geocode);
+                // console.log("loc2geocode: ");
+                // console.log(geocode);
                 instLocSearch(query, geocode);
             });
         }
@@ -105,8 +105,8 @@
             "&lng="+geocode.lng+
             "&callback=JSON_CALLBACK").success(function(data) {
                 var geoid = data;
-                console.log("instLocSearch: ");
-                console.log(geoid);
+                // console.log("instLocSearch: ");
+                // console.log(geoid);
                 recentMedia(geoid, query.time, query.hour);
             });
         }
@@ -123,7 +123,7 @@
             var start = time-hour;
             var end = time+hour;
             var UPPER = Number.MAX_VALUE;
-            sharedService.msg = [];
+            sharedService.msg.length = 0; // clean  rather than reassign
             for(var i=0; i<geoid.data.length && i<UPPER; i++) {
                 $http.jsonp(INST_API_URL+"/locations/"+geoid.data[i].id+"/media/recent"+
                 "?access_token="+INST_TOKEN+
@@ -131,11 +131,12 @@
                 "&max_timestamp="+end+
                 "&callback=JSON_CALLBACK").success(function (data) {
                     if(data.data.length>0) {
-                        sharedService.msg.push(data);
-                        console.log(data);
+                        sharedService.msg.push.apply(sharedService.msg, data.data);
+                        console.log(sharedService.msg);
                     }
                 });
             }
+            sharedService.broadcastCount();
         }
 
         return sharedService;
