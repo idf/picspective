@@ -11,8 +11,8 @@
         /* Feature ares */
         'picspective.search-controllers',
         'picspective.search-directives',
-        //'picspective.selection-controllers',
-        //'picspective.selection-directives',
+        'picspective.selection-controllers',
+        'picspective.selection-directives',
         //'picspective.share-controllers',
         //'picspective.share-directives'
     ]);
