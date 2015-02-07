@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html ng-app="picspective">
 <head>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/custom.css" />
 
     <script type="text/javascript" src="bower_components/angularjs/angular.min.js"></script>
     <script type="text/javascript" src="bower_components/sugar/release/sugar-full.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="js/commons-util-js-daniel/PrimitiveExtensions.js"></script>
 
     <script type="text/javascript" src="js/commons-util-js-daniel/angularjs/filters.js"></script>
+    <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.3.4.min.js"></script>
+    <script>
+        //Parse.initialize("3SVjJP6LzARbXokFN6TJ12XSDjUEuVSoUc3PVkHn", "Wj1HLAcUcYUEJ8XBnI1aF4e5WLq4jMvJaCeyju4U");
+        Parse.initialize("5wwLA4ekrQ4rWNIoVPz0DNsacCFYrzwlxt67Xdxl", "a8kvLMomhnrJDgHAULq3H3T4ZzixDZocmYR5RZVI");
+    </script>
+
     <script type="text/javascript" src="js/search-controllers.js"></script>
     <script type="text/javascript" src="js/search-directives.js"></script>
     <script type="text/javascript" src="js/selection-controllers.js"></script>
@@ -15,26 +26,76 @@
     <script type="text/javascript" src="js/share-directives.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 
-
 </head>
-<section id="search" ng-controller="SearchController as searchCtrl">
-    <!-- search -->
-    <form name="searchForm" ng-submit="searchCtrl.updateCnt()" novalidate>
-        <input type="text" autofocus="autofocus" autocomplete="off" placeholder="Location" name="search_loc" style="" class="form-control" ng-model="searchCtrl.query.loc" required>
-        <input type="text" autocomplete="off" placeholder="Time" name="search_time" style="" class="form-control" ng-model="searchCtrl.query.time" required>
-        <button type="submit">Submit</button>
-    </form>
-    <p>{{searchCtrl.query.loc}}</p>
-    <p>{{searchCtrl.query.time }}</p>
-    <p>{{searchCtrl.query.hour }}</p>
-    <p>{{searchCtrl.count }}</p>
-</section>
-<section id="selection">
-    <!-- selection -->
-</section>
-<section id="share">
-    <!-- share -->
-</section>
 <body>
+<div id="container">
+    <h1 class="title">picspective</h1>
+
+    <section id="sec1" ng-controller="SearchController as searchCtrl">
+        <!-- search -->
+        <div id="search" class="section-content">
+        <h2>Share your experiences through many perspectives</h2>
+        <div class="photostream demo">
+            <img src="img/sampleimage1.jpg"/>
+            <img src="img/sampleimage2.jpg"/>
+            <img src="img/sampleimage3.jpg"/>
+        </div>
+        <form name="searchForm" ng-submit="searchCtrl.updateCnt()" novalidate>
+            <input type="text" autofocus="autofocus" autocomplete="off" placeholder="Location. e.g. Victoria Theatre" name="search_loc" style="" class="form-control" ng-model="searchCtrl.query.loc" required>
+            <input type="text" autocomplete="off" placeholder="Datetime. e.g. 15 Jan 2015 at 8pm" name="search_time" style="" class="form-control" ng-model="searchCtrl.query.time" required>
+            <button type="submit" ng-submit class="go"><i class="fa fa-search"></i></button>
+        </form>
+        <p>{{searchCtrl.query.loc}}</p>
+        <p>{{searchCtrl.query.time }}</p>
+        <p>{{searchCtrl.query.hour }}</p>
+        <p>{{searchCtrl.count }}</p>
+    </section>
+
+    <section id="sec1.5">
+        <!-- tutorial -->
+        <div id="tutorial" class="section-content">
+          <h2>Please stand by as we fetch images...</h2>
+        </div>
+    </section>
+
+    <div ng-controller="SelectionController as selectionCtrl">
+    <section id="sec2">
+        <!-- selection -->
+        <div id="selection" class="section-content">
+          <div id="current-image-box">
+            <div id="current-image-wrap">
+                <img id="current-image" ng-src="{{selectionCtrl.current_image.images.standard_resolution.url}}"/>
+                <p id="current-image-content" ng-bind="selectionCtrl.current_image.comment"></p>
+            </div>
+        </div>
+        <div class="photostream selected">
+            <img ng-repeat="img in selectionCtrl.selected_img_list" ng-src="{{img}}"/>
+        </div>
+        <button class="share">Continue</button>
+        </div>
+    </section>
+
+    <section id="sec2.5">
+        <!-- caption -->
+        <div id="title" class="section-content">
+          <h2>Leave a comment with your story</h2>
+          <div class="photostream selected">
+            <img ng-repeat="img in selectionCtrl.selected_img_list" ng-src="{{img}}"/>
+          </div>
+          <textarea id="story-title"/></textarea>
+          <button class="share">Create</button>
+        </div>
+    </section>
+    </div>
+
+    <!-- <section id="share"> -->
+        <!-- share --><!-- 
+        <script async="" defer="" src="//platform.instagram.com/en_US/embeds.js"></script>
+        <div id="share-caption"></div>
+        <div id="share-photos"></div>
+    </section> -->
+
+    <img id="footer-img" width="600" src="img/kid.png"/>
+</div>
 </body>
 </html>

@@ -1,0 +1,180 @@
+/* CSS for Picspective
+fbhack, Singapore, 07 February 2015
+Raymond Jacobson */
+
+/* COLORS */
+fb_blue = #3B5998
+primary-color = #D49E8C
+primary-color= #DBDCDD
+light_gray = #EEEEEE
+off_white = #FEFEFE
+dark_gray = #333333
+
+/* MIXINS */
+fader(prop, seconds)
+  -webkit-transition prop seconds linear
+  -moz-transition prop seconds linear
+  -ms-transition prop seconds linear
+  -o-transition prop seconds linear
+  transition prop seconds linear
+
+/* GLOBALS */
+
+::-webkit-input-placeholder
+    color lighten(dark_gray, 40%)
+:-moz-placeholder
+    color lighten(dark_gray, 40%)
+::-moz-placeholder
+    color lighten(dark_gray, 40%)
+:-ms-input-placeholder
+    color lighten(dark_gray, 40%)
+
+body
+  background light_gray
+  font-family: 'Lato', sans-serif;
+  color dark_gray
+
+/* Fonts */
+h1
+  font-weight bold
+  font-style italic
+  font-size 2em
+  &.title
+    margin auto
+    width 200px
+    padding-top 20px
+    padding-bottom 20px
+    font-size 1.5em
+    text-align center
+    border-radius 30px
+    border 1px dashed darken(primary-color, 40%)
+    color darken(primary-color, 40%)
+
+h2
+  text-align center
+  font-weight 400
+  font-style normal
+  font-size 1.5em
+  letter-spacing 0px
+  text-transform uppercase
+
+button
+  background none
+  outline 0
+  box-shadow none
+  border none
+  text-transform uppercase
+  font-weight bold
+  letter-spacing 2px
+  border 2px solid dark_gray
+  padding 10px 20px
+  cursor pointer
+  &:hover
+    color lighten(dark_gray, 10%)
+    border 2px solid lighten(dark_gray, 10%)
+
+input, textarea
+  display inline-block
+  border none
+  background lighten(primary-color, 20%)
+  box-shadow none
+  height 50px
+  width 33%
+  margin 0 2% 0 0
+  padding 10px 20px
+  border 1px dashed darken(primary-color, 40%)
+  border-radius 30px
+  resize none
+  &:focus
+    fader(background, 0.3s)
+    outline 0
+    background light_gray
+    color dark_gray
+
+#container
+  position relative
+  padding-top 20px
+  width 960px
+  margin 0 auto
+  background primary-color
+  border-left 1px dashed darken(primary-color, 40%)
+  border-right 1px dashed darken(primary-color, 40%)
+
+.photostream
+  margin 30px auto
+  text-align center
+  &.selected
+    height 75px
+    padding 20px 10px
+    background darken(light_gray, 20%)
+    img
+      width 75px
+      opacity 0.3
+      padding 0px 5px
+  &.demo img
+    width 230px
+
+section
+  height 90vh
+  i.fa-sort-desc
+    position fixed
+    bottom 20px
+    font-size 3em
+    text-align center
+    left 50%
+    transform translate(-50%, -50%)
+    color rgba(0,0,0,0.2)
+.section-content
+  margin 100px auto 0px
+  text-align center
+
+#search
+  top 50%
+  padding 5% 
+  border-radius 20px  
+  form
+    width 90%
+    margin 20px auto
+    button
+      i
+        font-size 2em
+        color dark_gray
+      &:hover
+        i
+          fader(color, 0.3s)
+          color darken(primary-color, 40%)
+      border none
+      height 80px
+      display inline-block
+      width 10%
+
+#selection
+  #current-image-wrap
+    width 500px
+    height 500px
+    text-align center
+    margin 0 auto
+  #current-image-box
+    p
+      font-size 0.8em
+      font-weight 100
+      letter-spacing 1px
+      color off_white
+      position relative
+      top -60px
+      padding 10px
+      height 40px
+      background rgba(0,0,0,0.5)
+  #current-image
+    width 500px
+
+#title
+  textarea
+    display block
+    margin 40px auto
+    height 200px
+    padding 40px
+#footer-img
+  position absolute
+  bottom 0px
+  right 0px
