@@ -109,7 +109,7 @@ input:focus {
   width: 230px;
 }
 section {
-  height: 100vh;
+  height: 90vh;
 }
 section i.fa-sort-desc {
   position: fixed;
