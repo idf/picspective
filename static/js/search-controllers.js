@@ -13,11 +13,10 @@
     app.controller('SearchController', ['$http', '$scope', 'searchDataService', function($http, $scope, sharedService) {
         var vm = this;
 
-        var PIC = 2;
         vm.finalQuery = finalQuery;
         vm.updateCnt = updateCnt;
         vm.query = {};
-        vm.query.hour = 3600*4;  //
+        vm.query.hour = 3600*3;  //
         vm.count = 0;
 
         function finalQuery() {
@@ -25,25 +24,21 @@
             $scope.$on('searchDataServiceReady', function() {
                 console.log('searchDataServiceReady');
                 vm.count = countMedia(sharedService);
+                vm.hour = sharedService.hour;
             });
         }
 
         function updateCnt() {
             vm.count = 0;
-            var UPPER = 5;
-            for(var i=0; vm.count<=PIC && i<UPPER; vm.query.hour *= 2, i++) {
-                sharedService.prepForCount(vm.query);
-                $scope.$on('searchCountServiceReady', function() {
-                    vm.count += countMedia(sharedService);
-                    console.log(vm.count);
-                });
-            }
-            // vm.finalQuery();
+            sharedService.prepForCount(vm.query);
+            $scope.$on('searchCountServiceReady', function() {
+                vm.count += countMedia(sharedService);
+                vm.hour = sharedService.hour;
+            });
         }
 
         // private
         function countMedia(service) {
-            console.log(service.msg);
             return service.msg.length;
         }
     }]);
@@ -57,6 +52,7 @@
         sharedService.prepForCount = prepForCount;
         sharedService.broadcastCount = broadcastCount;
         sharedService.msg = [];
+        sharedService.hour = 0;
 
         function broadcastItem() {
             console.log("broadcastItem");
@@ -70,11 +66,10 @@
 
         function prepForBroadcast(query) {
             loc2geocode(query, false);
-            sharedService.broadcastItem();
         }
 
         function prepForCount(query) {
-            loc2geocode(query, true)
+            loc2geocode(query, true); // change to callback
         }
 
         // HELPER FUNCTIONS
@@ -103,6 +98,7 @@
             "?access_token="+INST_TOKEN+
             "&lat="+geocode.lat+
             "&lng="+geocode.lng+
+            "&distance=1000"+
             "&callback=JSON_CALLBACK").success(function(data) {
                 var geoid = data;
                 // console.log("instLocSearch: ");
@@ -120,6 +116,7 @@
          * @param hour in UNIX Timestamp
          */
         function recentMedia(geoid, time, hour, flag) {
+            var PIC = 30;
             var start = time-hour;
             var end = time+hour;
             var UPPER = Number.MAX_VALUE;
@@ -133,13 +130,20 @@
                 "&callback=JSON_CALLBACK").success(function (data) {
                     if(data.data.length>0) {
                         sharedService.msg.push.apply(sharedService.msg, data.data);
-                        console.log(sharedService.msg);
+                        sharedService.hour = hour;
+                        // console.log(sharedService.msg);
                     }
                 }));
             }
             $q.all(promises).then(function() {
                 if(flag) {
-                    sharedService.broadcastCount();
+                    if(sharedService.msg.length>PIC) {
+                        sharedService.broadcastCount();
+                        sharedService.broadcastItem();
+                    }
+                    else {
+                        recentMedia(geoid, time, hour*4, flag);
+                    }
                 }
                 else {
                     sharedService.broadcastItem();
