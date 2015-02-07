@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="css/custom.css" />
 
     <script type="text/javascript" src="bower_components/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/src/jquery.js"></script>
     <script type="text/javascript" src="js/commons-util-js-daniel/PrimitiveExtensions.js"></script>
 
     <script type="text/javascript" src="js/commons-util-js-daniel/angularjs/filters.js"></script>
@@ -22,8 +23,12 @@
     <input type="text" autofocus="autofocus" autocomplete="off" placeholder="Search Here" name="search" style="" class="form-control" ng-model="searchCtrl.query.str">
     <p>{{searchCtrl.query.str }}</p>
 </header>
-<section id="selection">
+<section id="selection" ng-controller="SelectionController as selectionCtrl">
     <!-- selection -->
+    <div id="current-image-box">
+        <img id="current-image" ng-src="{{selectionCtrl.current_image.url}}"/>
+        <p ng-bind="selectionCtrl.current_image.comment"></p>
+    </div>
 </section>
 <section id="share">
     <!-- share -->
