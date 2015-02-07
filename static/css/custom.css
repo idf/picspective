@@ -130,17 +130,17 @@ textarea:focus {
   margin: 0 auto;
 }
 .photostream.share .author {
-  top: 45px;
+  top: 55px;
   height: 20px;
 }
 .photostream.share .title {
   height: 20px;
-  bottom: 45px;
+  bottom: 60px;
 }
 .photostream.share div {
   display: inline-block;
   overflow: hidden;
-  height: 480px;
+  height: 460px;
 }
 .photostream.share img {
   width: 400px;
@@ -227,4 +227,5 @@ section i.fa-sort-desc {
   position: absolute;
   bottom: 0px;
   right: 0px;
+  width: 50%;
 }
