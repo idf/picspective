@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css" href="css/custom.css" />
 
     <script type="text/javascript" src="bower_components/angularjs/angular.min.js"></script>
-    <script type="text/javascript" src="bower_components/jquery/src/jquery.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="js/commons-util-js-daniel/PrimitiveExtensions.js"></script>
 
     <script type="text/javascript" src="js/commons-util-js-daniel/angularjs/filters.js"></script>
@@ -31,9 +31,12 @@
 <section id="selection" ng-controller="SelectionController as selectionCtrl">
     <!-- selection -->
     <div id="current-image-box">
-        <img id="current-image" ng-src="{{selectionCtrl.current_image.url}}"/>
+        <div id="current-image-wrap">
+            <img id="current-image" ng-src="{{selectionCtrl.current_image.url}}"/>
+        </div>
         <p ng-bind="selectionCtrl.current_image.comment"></p>
     </div>
+    <button id="selection-done">Done</button>
 </section>
 <section id="share">
     <!-- share -->
