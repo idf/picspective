@@ -19,15 +19,15 @@
 </head>
 <section id="search" ng-controller="SearchController as searchCtrl">
     <!-- search -->
-    <form name="searchForm" ng-submit="searchCtrl.searchQuery()" novalidate>
+    <form name="searchForm" ng-submit="searchCtrl.updateCnt()" novalidate>
         <input type="text" autofocus="autofocus" autocomplete="off" placeholder="Location" name="search_loc" style="" class="form-control" ng-model="searchCtrl.query.loc" required>
         <input type="text" autocomplete="off" placeholder="Time" name="search_time" style="" class="form-control" ng-model="searchCtrl.query.time" required>
-        <input type="text" autocomplete="off" placeholder="Hour" name="search_hour" style="" class="form-control" ng-model="searchCtrl.query.hour" required>
         <button type="submit">Submit</button>
     </form>
     <p>{{searchCtrl.query.loc}}</p>
     <p>{{searchCtrl.query.time }}</p>
     <p>{{searchCtrl.query.hour }}</p>
+    <p>{{searchCtrl.count }}</p>
 </section>
 <section id="selection">
     <!-- selection -->
