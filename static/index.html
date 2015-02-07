@@ -17,11 +17,16 @@
 
 
 </head>
-<header id="search" ng-controller="SearchController as searchCtrl">
+<section id="search" ng-controller="SearchController as searchCtrl">
     <!-- search -->
-    <input type="text" autofocus="autofocus" autocomplete="off" placeholder="Search Here" name="search" style="" class="form-control" ng-model="searchCtrl.query.str">
-    <p>{{searchCtrl.query.str }}</p>
-</header>
+    <form name="searchForm" ng-submit="searchCtrl.searchQuery()" novalidate>
+        <input type="text" autofocus="autofocus" autocomplete="off" placeholder="Location" name="search_loc" style="" class="form-control" ng-model="searchCtrl.query.loc" required>
+        <input type="text" autocomplete="off" placeholder="Time" name="search_time" style="" class="form-control" ng-model="searchCtrl.query.time" required>
+        <button type="submit">Submit</button>
+    </form>
+    <p>{{searchCtrl.query.loc}}</p>
+    <p>{{searchCtrl.query.time }}</p>
+</section>
 <section id="selection">
     <!-- selection -->
 </section>
