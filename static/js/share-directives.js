@@ -3,7 +3,7 @@
  */
 (function(){
     'use strict';
-    var app = angular.module('picspective.share-controllers', []);
+    var app = angular.module('picspective.share-directives', []);
 
 
 })();

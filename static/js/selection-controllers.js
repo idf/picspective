@@ -3,7 +3,7 @@
  */
 (function(){
     'use strict';
-    var app = angular.module('picspective.selection-controllers', []);
+    var app = angular.module('picspective.selection-controllers', ['picspective.search-controllers']);
 
     // Config for image carousel
     var image_duration = 4000;
@@ -35,7 +35,7 @@
         if (index === vm.query_img_list.length) index = 0;
         scopeNextImage(selectionService, $timeout, vm, $scope, index);
       });
-    }
+    };
 
     // Controls for user action events (buttons, hovering, styling)
     var eventHandlers = function(selectionService, selected_img_list) {
@@ -50,14 +50,14 @@
       $("#selection-done").click(function() {
         endSection(selectionService, selected_img_list);
       });
-    }
+    };
 
     // Moves on to share section
     var endSection = function(selectionService, selected_img_list) {
       console.log(selected_img_list);
       // var ImageList = Parse.Object.extend("ImageList");
       // selectionService.prepForBroadcast(selected_img_list);
-    }
+    };
 
     app.controller('SelectionController', ['$http', '$scope', '$timeout', 'searchDataService', 'selectionDataService', function($http, $scope, $timeout, searchService, selectionService) {
         
