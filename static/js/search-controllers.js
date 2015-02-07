@@ -49,7 +49,7 @@
     }]);
 
 
-    app.factory('searchDataService', ["$http", "$rootScope", function($http, $rootScope) {
+    app.factory('searchDataService', ["$http", "$rootScope", "$q", function($http, $rootScope, $q) {
         var sharedService = {};
         sharedService.prepForBroadcast = prepForBroadcast;
         sharedService.broadcastItem = broadcastItem;
@@ -69,17 +69,17 @@
         }
 
         function prepForBroadcast(query) {
-            loc2geocode(query);
+            loc2geocode(query, false);
             sharedService.broadcastItem();
         }
 
         function prepForCount(query) {
-            loc2geocode(query);
+            loc2geocode(query, true)
         }
 
         // HELPER FUNCTIONS
         // https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=API_KEY
-        function loc2geocode(query) {
+        function loc2geocode(query, flag) {
             // console.log("loc2geocode: ");
             // console.log(query);
             $http.get('https://maps.googleapis.com/maps/api/geocode/json?key='+
@@ -89,7 +89,7 @@
                 var geocode = data.results[0].geometry.location;  // lat, lng
                 // console.log("loc2geocode: ");
                 // console.log(geocode);
-                instLocSearch(query, geocode);
+                instLocSearch(query, geocode, flag);
             });
         }
 
@@ -98,7 +98,7 @@
             'lat': 1.3343083,
             'lng': 103.7419582
         };
-        function instLocSearch(query, geocode) {
+        function instLocSearch(query, geocode, flag) {
             $http.jsonp(INST_API_URL+"/locations/search"+
             "?access_token="+INST_TOKEN+
             "&lat="+geocode.lat+
@@ -107,7 +107,7 @@
                 var geoid = data;
                 // console.log("instLocSearch: ");
                 // console.log(geoid);
-                recentMedia(geoid, query.time, query.hour);
+                recentMedia(geoid, query.time, query.hour, flag);
             });
         }
 
@@ -119,13 +119,14 @@
          * @param time in UNIX Timestamp
          * @param hour in UNIX Timestamp
          */
-        function recentMedia(geoid, time, hour) {
+        function recentMedia(geoid, time, hour, flag) {
             var start = time-hour;
             var end = time+hour;
             var UPPER = Number.MAX_VALUE;
+            var promises = [];
             sharedService.msg.length = 0; // clean  rather than reassign
             for(var i=0; i<geoid.data.length && i<UPPER; i++) {
-                $http.jsonp(INST_API_URL+"/locations/"+geoid.data[i].id+"/media/recent"+
+                promises.push($http.jsonp(INST_API_URL+"/locations/"+geoid.data[i].id+"/media/recent"+
                 "?access_token="+INST_TOKEN+
                 "&min_timestamp="+start+
                 "&max_timestamp="+end+
@@ -134,9 +135,16 @@
                         sharedService.msg.push.apply(sharedService.msg, data.data);
                         console.log(sharedService.msg);
                     }
-                });
+                }));
             }
-            sharedService.broadcastCount();
+            $q.all(promises).then(function() {
+                if(flag) {
+                    sharedService.broadcastCount();
+                }
+                else {
+                    sharedService.broadcastItem();
+                }
+            });
         }
 
         return sharedService;
