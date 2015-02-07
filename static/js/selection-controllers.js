@@ -55,35 +55,35 @@
     // Moves on to share section
     var endSection = function(selectionService, selected_img_list) {
       console.log(selected_img_list);
-      selectionService.prepForBroadcast(selected_img_list);
+      // var ImageList = Parse.Object.extend("ImageList");
+      // selectionService.prepForBroadcast(selected_img_list);
     }
 
     app.controller('SelectionController', ['$http', '$scope', '$timeout', 'searchDataService', 'selectionDataService', function($http, $scope, $timeout, searchService, selectionService) {
+        
         var vm = this;
+        vm.saveToParse = saveToParse;
         vm.selected_img_list = [] 
+
         $scope.$on('searchDataServiceReady', function() {
           console.log(searchService.msg);
           vm.query_img_list = searchService.msg;
           scopeNextImage(selectionService, $timeout, vm, $scope, 0);
           eventHandlers(selectionService, vm.selected_img_list);
         });
-        // var tmp_img_list = [
-        // {
-        //   url: "http://lorempixel.com/output/nightlife-q-c-640-480-10.jpg",
-        //   comment: "Look at this incredible picture!"
-        // },
-        // {
-        //   url: "http://lorempixel.com/output/nightlife-q-c-640-480-1.jpg",
-        //   comment: "2nd pic"
-        // },
-        // {
-        //   url: "http://lorempixel.com/output/food-q-c-640-480-3.jpg",
-        //   comment: "Wow! An incredible photo!"
-        // },
-        // {
-        //   url: "http://lorempixel.com/output/technics-q-c-640-480-4.jpg",
-        //   comment: "Shiiiit. This is dope!"
-        // }];
+
+        function saveToParse() {
+          console.log(vm.selected_img_list)
+          var ImageList = Parse.Object.extend("ImageList");
+          var imageList = new ImageList();
+          imageList.set("selected_img_list",vm.selected_img_list.join(","));
+          imageList.set("comment", vm.story_comment);
+          imageList.save(null,{
+             success: function(imageList){
+                 console.log(imageList.id+" pushed to Parse");
+             }
+          });
+          }
     }]);
 
     app.factory('selectionDataService', ["$http", "$rootScope", function($http, $rootScope, query) {
@@ -92,12 +92,13 @@
         sharedService.broadcastItem = broadcastItem;
 
         function broadcastItem() {
-            $rootScope.$broadcast('selectionDataServiceReady');
+            // sharedService.selected_img_list = 
+            // $rootScope.$broadcast('selectionDataServiceReady');
         }
 
         function prepForBroadcast(selected_img_list) {
           // Set up parse, save data in parse, broadcast message
-          Parse.initialize("3SVjJP6LzARbXokFN6TJ12XSDjUEuVSoUc3PVkHn", "Wj1HLAcUcYUEJ8XBnI1aF4e5WLq4jMvJaCeyju4U");
+          // Parse.initialize("3SVjJP6LzARbXokFN6TJ12XSDjUEuVSoUc3PVkHn", "Wj1HLAcUcYUEJ8XBnI1aF4e5WLq4jMvJaCeyju4U");
         }
 
         return sharedService;

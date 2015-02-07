@@ -15,8 +15,8 @@
     <script type="text/javascript" src="js/commons-util-js-daniel/angularjs/filters.js"></script>
     <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.3.4.min.js"></script>
     <script>
-        //Parse.initialize("3SVjJP6LzARbXokFN6TJ12XSDjUEuVSoUc3PVkHn", "Wj1HLAcUcYUEJ8XBnI1aF4e5WLq4jMvJaCeyju4U");
-        Parse.initialize("5wwLA4ekrQ4rWNIoVPz0DNsacCFYrzwlxt67Xdxl", "a8kvLMomhnrJDgHAULq3H3T4ZzixDZocmYR5RZVI");
+        Parse.initialize("3SVjJP6LzARbXokFN6TJ12XSDjUEuVSoUc3PVkHn", "Wj1HLAcUcYUEJ8XBnI1aF4e5WLq4jMvJaCeyju4U");
+        // Parse.initialize("5wwLA4ekrQ4rWNIoVPz0DNsacCFYrzwlxt67Xdxl", "a8kvLMomhnrJDgHAULq3H3T4ZzixDZocmYR5RZVI");
     </script>
 
     <script type="text/javascript" src="js/search-controllers.js"></script>
@@ -42,7 +42,7 @@
             <img src="img/sampleimage3.jpg"/>
         </div>
         <form name="searchForm" ng-submit="searchCtrl.updateCnt()" novalidate>
-            <input type="text" autofocus="autofocus" autocomplete="off" placeholder="Location. e.g. Victoria Theatre" name="search_loc" style="" class="form-control" ng-model="searchCtrl.query.loc" required>
+            <input type="text" autofocus="autofocus" autocomplete="off" placeholder="Location. e.g. Marina Bay Sands" name="search_loc" style="" class="form-control" ng-model="searchCtrl.query.loc" required>
             <input type="text" autocomplete="off" placeholder="Datetime. e.g. 15 Jan 2015 at 8pm" name="search_time" style="" class="form-control" ng-model="searchCtrl.query.time" required>
             <button type="submit" ng-submit class="go"><i class="fa fa-search"></i></button>
         </form>
@@ -84,18 +84,17 @@
           <div class="photostream selected">
             <img ng-repeat="img in selectionCtrl.selected_img_list" ng-src="{{img}}"/>
           </div>
-          <textarea id="story-title"/></textarea>
-          <button class="share">Create</button>
+          <textarea ng-model="selectionCtrl.story_comment" id="story-title"/></textarea>
+          <button class="share" ng-click="selectionCtrl.saveToParse()">Create</button>
         </div>
     </section>
     </div>
 
-<section id="share"  ng-controller="ShareController as shareCtrl">
-    <!-- share -->
+<!-- <section id="share"  ng-controller="ShareController as shareCtrl">
     <script async="" defer="" src="//platform.instagram.com/en_US/embeds.js"></script>
     <div id="share-caption">testing</div>
     <div id="share-photos">testings</div>
-</section>
+</section> -->
 
     <img id="footer-img" width="600" src="img/kid.png"/>
 </div>

@@ -24,6 +24,7 @@
         ];
         var listOfParseImage = [];
         var caption;
+        
         //for (var i = 0; i < imageURLs.length; i++) {
         //    $.getJSON(
         //        'http://api.instagram.com/oembed?url=' + imageURLs[i] + '?client_id=8f54d78c6a544f33b67f3ea4600adcce&callback=?',
@@ -76,36 +77,36 @@
         //    }
         //});
 
-        var imageListID = "kmLySAGuBp";
-        var imageList = new ImageList();
-        var queryIL = new Parse.Query(ImageList);
-        queryIL.get(imageListID, {
-            success: function (imageList) {
+        // var imageListID = "kmLySAGuBp";
+        // var imageList = new ImageList();
+        // var queryIL = new Parse.Query(ImageList);
+        // queryIL.get(imageListID, {
+        //     success: function (imageList) {
 
-                console.log(imageList.id + " downloaded");
-                caption = imageList.get("caption");
-                listOfParseImage = imageList.get("listOfParseImage").split(',');
-                //console.log(caption+listOfParseImage.toString());
+        //         console.log(imageList.id + " downloaded");
+        //         caption = imageList.get("caption");
+        //         listOfParseImage = imageList.get("listOfParseImage").split(',');
+        //         //console.log(caption+listOfParseImage.toString());
 
-                var queryLOPI = new Parse.Query(InstaImage);
-                for (var i = 0; i < listOfParseImage.length; i++) {
-                    queryLOPI.get(listOfParseImage[i], {
-                        success: function (instaImage) {
-                            // The object was retrieved successfully.
-                            $("#share").append(instaImage.get("html"));
-                            console.log(instaImage.id + " downloaded");
-                            $('#share-caption').html(caption);
-                        },
-                        error: function (object, error) {
-                            // The object was not retrieved successfully.
-                            // error is a Parse.Error with an error code and message.
-                        }
-                    });
-                }
-            },
-            error: function (object, error) {
-            }
-        });
+        //         var queryLOPI = new Parse.Query(InstaImage);
+        //         for (var i = 0; i < listOfParseImage.length; i++) {
+        //             queryLOPI.get(listOfParseImage[i], {
+        //                 success: function (instaImage) {
+        //                     // // The object was retrieved successfully.
+        //                     // $("#share").append(instaImage.get("html"));
+        //                     // console.log(instaImage.id + " downloaded");
+        //                     // $('#share-caption').html(caption);
+        //                 },
+        //                 error: function (object, error) {
+        //                     // The object was not retrieved successfully.
+        //                     // error is a Parse.Error with an error code and message.
+        //                 }
+        //             });
+        //         }
+        //     },
+        //     error: function (object, error) {
+        //     }
+        // });
     }]);
 
     app.factory('SharingDataService', ["$http", "$rootScope", function($http, $rootScope) {
