@@ -11,26 +11,29 @@
 
     // Brings the next image into scope, call with index 0 of list
     // Iterates (cyclic) thru list recursively with a timeout of specified duration
-    var scopeNextImage = function(selectionService, $timeout, vm, $scope, img_list, selected_img_list, index) {
-      console.log("scoping "+index+" of "+img_list);
-      if (img_list.length == 0 || selected_img_list.length == max_photos) {
-        endSection(selectionService, selected_img_list);
+    var scopeNextImage = function(selectionService, $timeout, vm, $scope, index) {
+      console.log("scoping "+index+" of "+vm.query_img_list);
+      if (vm.query_img_list.length == 0 || vm.selected_img_list.length == max_photos) {
+        endSection(selectionService, vm.selected_img_list);
       }
-      vm.current_image = img_list[index];
+      vm.current_image = vm.query_img_list[index];
       if(!$scope.$$phase) {
         $scope.$apply();
       }
       var timer = $timeout(function() {
-        if (index+1 === img_list.length) index = -1;
-        scopeNextImage(selectionService, $timeout, vm, $scope, img_list, selected_img_list, index+1);
+        if (index+1 === vm.query_img_list.length) index = -1;
+        scopeNextImage(selectionService, $timeout, vm, $scope, index+1);
       }, image_duration);
       $("#current-image").unbind();
       $("#current-image").mousedown(function() {
-        selected_img_list.push($(this).attr('src'));
+        vm.selected_img_list.push($(this).attr('src'));
+        if(!$scope.$$phase) {
+          $scope.$apply();
+        }
         $timeout.cancel(timer);
-        img_list.splice(index, 1);
-        if (index === img_list.length) index = 0;
-        scopeNextImage(selectionService, $timeout, vm, $scope, img_list, selected_img_list, index);
+        vm.query_img_list.splice(index, 1);
+        if (index === vm.query_img_list.length) index = 0;
+        scopeNextImage(selectionService, $timeout, vm, $scope, index);
       });
     }
 
@@ -57,26 +60,30 @@
 
     app.controller('SelectionController', ['$http', '$scope', '$timeout', 'searchDataService', 'selectionDataService', function($http, $scope, $timeout, searchService, selectionService) {
         var vm = this;
-        var selected_img_list = [] 
-        var tmp_img_list = [
-        {
-          url: "http://lorempixel.com/output/nightlife-q-c-640-480-10.jpg",
-          comment: "Look at this incredible picture!"
-        },
-        {
-          url: "http://lorempixel.com/output/nightlife-q-c-640-480-1.jpg",
-          comment: "2nd pic"
-        },
-        {
-          url: "http://lorempixel.com/output/food-q-c-640-480-3.jpg",
-          comment: "Wow! An incredible photo!"
-        },
-        {
-          url: "http://lorempixel.com/output/technics-q-c-640-480-4.jpg",
-          comment: "Shiiiit. This is dope!"
-        }];
-        scopeNextImage(selectionService, $timeout, vm, $scope, tmp_img_list, selected_img_list, 0);
-        eventHandlers(selectionService, selected_img_list);
+        vm.selected_img_list = [] 
+        $scope.$on('searchDataServiceReady', function() {
+          console.log(searchService.msg);
+          vm.query_img_list = searchService.msg;
+          scopeNextImage(selectionService, $timeout, vm, $scope, 0);
+          eventHandlers(selectionService, vm.selected_img_list);
+        });
+        // var tmp_img_list = [
+        // {
+        //   url: "http://lorempixel.com/output/nightlife-q-c-640-480-10.jpg",
+        //   comment: "Look at this incredible picture!"
+        // },
+        // {
+        //   url: "http://lorempixel.com/output/nightlife-q-c-640-480-1.jpg",
+        //   comment: "2nd pic"
+        // },
+        // {
+        //   url: "http://lorempixel.com/output/food-q-c-640-480-3.jpg",
+        //   comment: "Wow! An incredible photo!"
+        // },
+        // {
+        //   url: "http://lorempixel.com/output/technics-q-c-640-480-4.jpg",
+        //   comment: "Shiiiit. This is dope!"
+        // }];
     }]);
 
     app.factory('selectionDataService', ["$http", "$rootScope", function($http, $rootScope, query) {
