@@ -1,0 +1,182 @@
+/* CSS for Picspective
+fbhack, Singapore, 07 February 2015
+Raymond Jacobson */
+/* COLORS */
+/* MIXINS */
+/* GLOBALS */
+::-webkit-input-placeholder {
+  color: #858585;
+}
+:-moz-placeholder {
+  color: #858585;
+}
+::-moz-placeholder {
+  color: #858585;
+}
+:-ms-input-placeholder {
+  color: #858585;
+}
+body {
+  background: #eee;
+  font-family: 'Lato', sans-serif;
+  color: #333;
+}
+/* Fonts */
+h1 {
+  font-weight: bold;
+  font-style: italic;
+  font-size: 2em;
+}
+h1.title {
+  margin: auto;
+  width: 200px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 1.5em;
+  text-align: center;
+  border-radius: 30px;
+  border: 1px dashed #808488;
+  color: #808488;
+}
+h2 {
+  text-align: center;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.5em;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+}
+button {
+  background: none;
+  outline: 0;
+  box-shadow: none;
+  border: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 2px;
+  border: 2px solid #333;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+button:hover {
+  color: #474747;
+  border: 2px solid #474747;
+}
+input {
+  display: inline-block;
+  border: none;
+  background: #e2e3e4;
+  box-shadow: none;
+  height: 80px;
+  width: 80%;
+  margin: 0;
+  padding: 10px 20px;
+  border: 1px dashed #808488;
+  border-radius: 30px;
+}
+input:focus {
+  -webkit-transition: background 0.3s linear;
+  -moz-transition: background 0.3s linear;
+  -ms-transition: background 0.3s linear;
+  -o-transition: background 0.3s linear;
+  transition: background 0.3s linear;
+  outline: 0;
+  background: #eee;
+  color: #333;
+}
+#container {
+  position: relative;
+  padding-top: 20px;
+  width: 960px;
+  margin: 0 auto;
+  background: #dbdcdd;
+  border-left: 1px dashed #808488;
+  border-right: 1px dashed #808488;
+}
+.photostream {
+  margin: 30px auto;
+  text-align: center;
+}
+.photostream.selected {
+  padding: 20px 10px;
+  background: #bebebe;
+}
+.photostream.selected img {
+  width: 75px;
+  opacity: 0.3;
+}
+.photostream.demo img {
+  width: 230px;
+}
+section {
+  height: 100vh;
+}
+section i.fa-sort-desc {
+  position: fixed;
+  bottom: 20px;
+  font-size: 3em;
+  text-align: center;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(0,0,0,0.2);
+}
+.section-content {
+  margin: 100px auto 0px;
+  text-align: center;
+}
+#search {
+  top: 50%;
+  padding: 5%;
+  border-radius: 20px;
+}
+#search form {
+  width: 90%;
+  margin: 20px auto;
+}
+#search form button {
+  border: none;
+  height: 80px;
+  display: inline-block;
+  width: 10%;
+}
+#search form button i {
+  font-size: 2em;
+  color: #333;
+}
+#search form button:hover i {
+  -webkit-transition: color 0.3s linear;
+  -moz-transition: color 0.3s linear;
+  -ms-transition: color 0.3s linear;
+  -o-transition: color 0.3s linear;
+  transition: color 0.3s linear;
+  color: #808488;
+}
+#selection #current-image-wrap {
+  width: 500px;
+  height: 500px;
+  text-align: center;
+  margin: 0 auto;
+}
+#selection #current-image-box p {
+  font-size: 0.8em;
+  font-weight: 100;
+  letter-spacing: 1px;
+  color: #fefefe;
+  position: relative;
+  top: -60px;
+  padding: 10px;
+  height: 40px;
+  background: rgba(0,0,0,0.5);
+}
+#selection #current-image {
+  width: 500px;
+}
+#title input {
+  display: block;
+  margin: 40px auto;
+}
+#footer-img {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
