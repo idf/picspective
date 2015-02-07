@@ -20,6 +20,34 @@
         Parse.initialize("3SVjJP6LzARbXokFN6TJ12XSDjUEuVSoUc3PVkHn", "Wj1HLAcUcYUEJ8XBnI1aF4e5WLq4jMvJaCeyju4U");
         // Parse.initialize("5wwLA4ekrQ4rWNIoVPz0DNsacCFYrzwlxt67Xdxl", "a8kvLMomhnrJDgHAULq3H3T4ZzixDZocmYR5RZVI");
     </script>
+    <script>
+        $(document).ready(function(){
+            $('body').on({
+                'mousewheel': function(e) {
+                    if (e.target.id == 'el') return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+        });
+        var cur_section = 0;
+        function goToByScroll(id){
+            // Remove "link" from the ID
+            id = id.replace("link", "");
+            // Scroll
+            console.log($("#"+id));
+            $('html,body').animate({scrollTop: $("#"+id).offset().top},
+                'slow');
+        }
+
+        var nextSection = function() {
+            var sections = $("section");
+            cur_section++;
+            var target_section = sections[cur_section];
+            console.log(target_section.getAttribute('id'));
+            goToByScroll(target_section.getAttribute('id'));
+        }
+    </script>
 
     <script type="text/javascript" src="js/search-controllers.js"></script>
     <script type="text/javascript" src="js/search-directives.js"></script>
