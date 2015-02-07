@@ -209,6 +209,7 @@ section i.fa-sort-desc {
 }
 #share {
   padding: 50px 0px;
+  text-align: center;
 }
 #title textarea {
   display: block;

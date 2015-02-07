@@ -18,6 +18,23 @@
         Parse.initialize("3SVjJP6LzARbXokFN6TJ12XSDjUEuVSoUc3PVkHn", "Wj1HLAcUcYUEJ8XBnI1aF4e5WLq4jMvJaCeyju4U");
         // Parse.initialize("5wwLA4ekrQ4rWNIoVPz0DNsacCFYrzwlxt67Xdxl", "a8kvLMomhnrJDgHAULq3H3T4ZzixDZocmYR5RZVI");
     </script>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '784681101611875',
+                xfbml      :  true,
+                version    : 'v2.1'
+            });
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 
     <script type="text/javascript" src="js/search-controllers.js"></script>
     <script type="text/javascript" src="js/search-directives.js"></script>
@@ -37,12 +54,12 @@
             <div ng-repeat="img in shareCtrl.images">
                 <p class="author">{{img.author_name}}</p>
                 <img ng-src="{{img.thumbnail_url}}"/>
-                <p class="title">{{img.title | limitTo:40 || "No caption"}}</p>
+                <p class="title">{{(img.title | limitTo:40) || "No caption"}}</p>
             </div>
         </div>
 
+        <button type="button" ng-click="shareCtrl.share()">Share to Facebook</button> 
     </div>
-    <button>Share to Facebook</button>
 </div>
 </body>
 </html>

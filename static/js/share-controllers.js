@@ -8,6 +8,19 @@
 
     app.controller('ShareController', ['$http', '$scope', function($http, $scope) {
         var vm = this;
+        vm.post_url = {};
+        vm.share = share;
+
+        function share() {
+            vm.post_url = window.location.href;
+            console.log(vm.post_url);
+            FB.ui({
+                method: 'feed',
+                link: vm.post_url,
+                caption: 'Picspective Sharing'
+            }, function(response){});
+        }
+
         var key = window.location.pathname.split("/")[1];
 
         var ImageList = Parse.Object.extend("ImageList");
