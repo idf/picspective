@@ -17,7 +17,7 @@
         vm.finalQuery = finalQuery;
         vm.updateCnt = updateCnt;
         vm.query = {};
-        vm.query.hour = 3600;  // 1 hour
+        vm.query.hour = 3600*4;  //
         vm.count = 0;
 
         function finalQuery() {
@@ -29,16 +29,15 @@
         }
 
         function updateCnt() {
-            //vm.count = 0;
-            //for(; vm.count<=PIC ; vm.query.hour *= 2) {
-            //
-            //    });
-            //}
-            sharedService.prepForCount(vm.query);
-            $scope.$on('searchCountServiceReady', function() {
-                vm.count = countMedia(sharedService);
-                vm.finalQuery();
-            });
+            vm.count = 0;
+            var UPPER = 10;
+            for(var i=0; vm.count<=PIC && i<UPPER; vm.query.hour *= 2, i++) {
+                sharedService.prepForCount(vm.query);
+                $scope.$on('searchCountServiceReady', function() {
+                    vm.count = countMedia(sharedService);
+                });
+            }
+            vm.finalQuery();
         }
 
         // private
@@ -103,7 +102,8 @@
             $http.jsonp(INST_API_URL+"/locations/search"+
             "?access_token="+INST_TOKEN+
             "&lat="+geocode.lat+
-            "&lng="+geocode.lng).success(function(data) {
+            "&lng="+geocode.lng+
+            "&callback=JSON_CALLBACK").success(function(data) {
                 var geoid = data;
                 console.log("instLocSearch: ");
                 console.log(geoid);
@@ -122,17 +122,20 @@
         function recentMedia(geoid, time, hour) {
             var start = time-hour;
             var end = time+hour;
-            var UPPER = 2;
+            var UPPER = Number.MAX_VALUE;
             sharedService.msg = [];
             for(var i=0; i<geoid.data.length && i<UPPER; i++) {
                 $http.jsonp(INST_API_URL+"/locations/"+geoid.data[i].id+"/media/recent"+
                 "?access_token="+INST_TOKEN+
                 "&min_timestamp="+start+
-                "&max_timestamp="+end).success(function (data) {
-                    sharedService.msg.push(data);
+                "&max_timestamp="+end+
+                "&callback=JSON_CALLBACK").success(function (data) {
+                    if(data.data.length>0) {
+                        sharedService.msg.push(data);
+                        console.log(data);
+                    }
                 });
             }
-            console.log(sharedService.msg);
         }
 
         return sharedService;
