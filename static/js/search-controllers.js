@@ -4,11 +4,10 @@
 (function(){
     'use strict';
 
-    var INST_CLIENT_ID = "8f54d78c6a544f33b67f3ea4600adcce";
     var SITE_URL = "http://localhost:4567/";
 
     // var inst_token = "292420707.661b085.14661ff4c6414d68ba1c583cbd7bac3c";
-    var inst_token = "";
+
     var INST_API_URL = "https://api.instagram.com/v1";
 
     var GG_TOKEN = "AIzaSyAs2yRcXM_Q_Ub8h5iTf5FP36f2RoiWO7Y";
@@ -31,10 +30,6 @@
         function updateCnt() {
             vm.query.time = Date.create(vm.query.time);
             vm.count = 0;
-            if(inst_token==="") {
-                $window.location.href = "http://instagram.com/oauth/authorize/?client_id=898d3a0471614bd0aee1ba443b25fd61&redirect_uri=http://localhost:4567/&response_type=code";
-
-            }
             sharedService.prepForCount(vm.query);
             $scope.$on('searchCountServiceReady', function() {
                 vm.count += countMedia(sharedService);
@@ -49,7 +44,7 @@
     }]);
 
 
-    app.factory('searchDataService', ["$http", "$rootScope", "$q", function($http, $rootScope, $q) {
+    app.factory('searchDataService', ["$http", "$rootScope", "$q", "instagramService", function($http, $rootScope, $q, instagramService) {
         var sharedService = {};
         sharedService.prepForBroadcast = prepForBroadcast;
         sharedService.broadcastItem = broadcastItem;
@@ -58,6 +53,8 @@
         sharedService.broadcastCount = broadcastCount;
         sharedService.msg = [];
         sharedService.hour = 0;
+
+        instagramService.initialize();
 
         function broadcastItem() {
             console.log("broadcastItem");
@@ -70,25 +67,29 @@
         }
 
         function prepForBroadcast(query) {
-            loc2geocode(query, false);
+            loc2geocode(query, false);  // change to callback
         }
 
         function prepForCount(query) {
-            loc2geocode(query, true); // change to callback
+            if(instagramService.isReady()) {
+                loc2geocode(query, true);
+            }
+            else {
+                instagramService.connectInstagram().then(function () {
+                    loc2geocode(query, true);
+                });
+            }
         }
 
         // HELPER FUNCTIONS
         // https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=API_KEY
         function loc2geocode(query, flag) {
-            // console.log("loc2geocode: ");
-            // console.log(query);
+            console.log(query);
             $http.get('https://maps.googleapis.com/maps/api/geocode/json?key='+
             GG_TOKEN+"&address="+query.loc).success(function(data) {  // hack around
-                // console.log("loc2geocode: ");
-                // console.log(data);
                 var geocode = data.results[0].geometry.location;  // lat, lng
-                // console.log("loc2geocode: ");
-                // console.log(geocode);
+                //console.log("loc2geocode: ");
+                //console.log(geocode);
                 instLocSearch(query, geocode, flag);
             });
         }
@@ -100,7 +101,7 @@
         };
         function instLocSearch(query, geocode, flag) {
             $http.jsonp(INST_API_URL+"/locations/search"+
-            "?access_token="+inst_token+
+            "?access_token="+instagramService.getAccessToken()+
             "&lat="+geocode.lat+
             "&lng="+geocode.lng+
             "&distance=1000"+
@@ -129,7 +130,7 @@
             sharedService.msg.length = 0; // clean  rather than reassign
             for(var i=0; i<geoid.data.length && i<UPPER; i++) {
                 promises.push($http.jsonp(INST_API_URL+"/locations/"+geoid.data[i].id+"/media/recent"+
-                "?access_token="+inst_token+
+                "?access_token="+instagramService.getAccessToken()+
                 "&min_timestamp="+start+
                 "&max_timestamp="+end+
                 "&callback=JSON_CALLBACK").success(function (data) {
@@ -158,4 +159,50 @@
 
         return sharedService;
     }]);
+
+    app.factory('instagramService', function($q) {
+        var authorizationResult = false;
+        return {
+            initialize: function() {
+                //initialize OAuth.io with public key of the application
+                OAuth.initialize('421nwYiF8fdQ56TiNC8QSn2gm-Q', {cache:true});
+                //try to create an authorization result when the page loads, this means a returning user won't have to click the twitter button again
+                authorizationResult = OAuth.create('instagram');
+            },
+            isReady: function() {
+                return (authorizationResult);
+            },
+            connectInstagram: function() {
+                var deferred = $q.defer();
+                OAuth.popup('instagram', {cache:true}, function(error, result) { //cache means to execute the callback if the tokens are already present
+                    if (!error) {
+                        authorizationResult = result;
+                        deferred.resolve();
+                    } else {
+                        //do something if there's an error
+                    }
+                });
+                return deferred.promise;
+            },
+            clearCache: function() {
+                OAuth.clearCache('instagram');
+                authorizationResult = false;
+            },
+            getAccessToken: function () {
+                return authorizationResult.access_token;
+            }
+            //,
+            //getLatestTweets: function () {
+            //    //create a deferred object using Angular's $q service
+            //    var deferred = $q.defer();
+            //    var promise = authorizationResult.get('/1.1/statuses/home_timeline.json').done(function(data) { //https://dev.twitter.com/docs/api/1.1/get/statuses/home_timeline
+            //        //when the data is retrieved resolved the deferred object
+            //        deferred.resolve(data)
+            //    });
+            //    //return the promise of the deferred object
+            //    return deferred.promise;
+            //}
+        }
+
+    });
 })();
