@@ -56,8 +56,6 @@
     var endSection = function(selectionService, selected_img_list) {
       console.log(selected_img_list);
       gotoNextSection();
-      // var ImageList = Parse.Object.extend("ImageList");
-      // selectionService.prepForBroadcast(selected_img_list);
     };
 
     app.controller('SelectionController', ['$http', '$scope', '$timeout', 'searchDataService', 'selectionDataService', function($http, $scope, $timeout, searchService, selectionService) {

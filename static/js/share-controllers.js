@@ -17,7 +17,7 @@
             FB.ui({
                 method: 'feed',
                 link: vm.post_url,
-                caption: 'Picspective Sharing'
+                caption: vm.comment,
             }, function(response){});
         }
 
