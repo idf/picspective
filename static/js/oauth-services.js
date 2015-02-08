@@ -27,6 +27,7 @@
                         deferred.resolve();
                     } else {
                         console.log("error in oauth");
+                        console.log(error);
                     }
                 });
                 return deferred.promise;
