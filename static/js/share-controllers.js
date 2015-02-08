@@ -38,7 +38,7 @@
                     var il_photo_truncated = il_photos[i].split('/').slice(0,-2).join('/');
                     console.log(il_photo_truncated);
                     var cur_photo = il_photos[i];
-                    var long_url = 'http://api.instagram.com/oembed?url=' + il_photo_truncated + '?client_id=8f54d78c6a544f33b67f3ea4600adcce&callback=?';
+                    var long_url = 'https://api.instagram.com/oembed?url=' + il_photo_truncated + '?client_id=8f54d78c6a544f33b67f3ea4600adcce&callback=?';
                     $.getJSON(long_url,
                         function (data) {
                             // il_photos.push(data);
